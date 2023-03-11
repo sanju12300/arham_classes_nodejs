@@ -43,7 +43,7 @@ let calcForm =`<head>
 </head>
 <body>
 <form action="calc">
-    <table>
+    <table> 
         <tr>
             <th colspan="2" align="center">
                 Calculator
