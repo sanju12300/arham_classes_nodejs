@@ -69,8 +69,43 @@ let calcForm =`<head>
 </body>
 </html>`
 
+let adduser=`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>addUser</title>
+</head>
+<body>
+<form action="/Adduser">
+    <table>
+        <div>
+            Full Name : <input type="text" placeholder="Enter full Name" name="name">
+        </div>
+        <br>
+        <br>
+        <div>
+            Email : <input type="text" placeholder="Enter your Email" name="email">
+        </div>
+        <br>
+        <div>
+            Mobile No. : <input type="number" placeholder="Enter your Mobile No." name="mobileNo">
+        </div>
+        <br>
+        <div>
+            Password : <input type="text" placeholder="Enter your Password" name="password">
+        </div>
+        <br>
+        <div>
+            <input type="submit" value="Add" name="submit">
+            <input type="reset" value="reset" name="reset">
+        </div>
+    </table>
+</form>
+</body>
+</html>`
+
 let app = http.createServer((req, res)=>{
-   console.log(req.url)
+    console.log(req.url)
 
     let urlInfo=url.parse(req.url,true);
     if(urlInfo.path!="/favicon.ico")
@@ -90,29 +125,39 @@ let app = http.createServer((req, res)=>{
             console.log(Password)
 
             if (Username == username && Password == password)
+
             {
-                res.write(calcForm);
+                res.write("<h1>Admin</h1>")
+                res.write(adduser);
+
             }
 
             else{
                 res.write(`<html><body></h1>Enter a valid username and password</h1></body></html>`)
             }
         }
-        else if(urlInfo.pathname=="/calc"){
+        else if(urlInfo.pathname=="/Adduser"){
+            let Name = urlInfo.query.name
+            let Email= urlInfo.query.email
+            let Phone = urlInfo.query.phone
+            let Password = urlInfo.query.password
 
-                let no1 = parseInt(urlInfo.query.no1);
-                let no2 = parseInt(urlInfo.query.no2);
 
-                res.write(`<html><body>Answer : ${(no1 + no2)}</body></html>`);
-                res.write('<html><body><a href="calcForm"> calcForm</a></body></html>');
+            res.write(`<html><body>Name : ${Name}<br>
+                        Email : ${Email}<br>
+                        MobileNo : ${Phone}<br>
+                        Password : ${Password}<br>
+                        </body></html>`);
+            res.write(`<html><body><a href="/Adduser" </body></html>`)
+
         }
         else {
             res.write(loginForm)
-         }
+        }
     }
-res.end();
+    res.end();
 
 })
 app.listen(Port, ()=>{
-console.log(`server is running on Port : ${Port}`)
+    console.log(`server is running on Port : ${Port}`)
 })
